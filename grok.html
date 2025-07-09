@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenDev Solutions: Investor Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .energetic-orange { color: #E55812; }
+        .energetic-teal { color: #00A6A6; }
+        .energetic-yellow { color: #F39B12; }
+        .energetic-dark { color: #2E2E2E; }
+        .bg-energetic-orange { background-color: #E55812; }
+        .bg-energetic-teal { background-color: #00A6A6; }
+        .bg-energetic-yellow { background-color: #F39B12; }
+        .bg-energetic-dark { background-color: #2E2E2E; }
+        .border-energetic-orange { border-color: #E55812; }
+        h1, h2, h3 {
+            font-weight: 800;
+        }
+        .team-member-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .portfolio-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+        .flow-step {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.03);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 500;
+            color: #2E2E2E;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .arrow-right::after {
+            content: "➔";
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #B0B0B0;
+        }
+        .flow-step:last-child .arrow-right::after {
+            content: none;
+        }
+         @media (min-width: 768px) {
+            .md\:arrow-down::after {
+                content: "↓";
+                position: absolute;
+                bottom: -1.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 1.5rem;
+                color: #B0B0B0;
+            }
+            .flow-step:last-child .md\:arrow-down::after {
+                content: none;
+            }
+         }
+
+        .mockup-container {
+            width: 100%;
+            max-width: 400px;
+            height: 200px;
+            background-color: #e2e8f0;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+            margin: 1.5rem auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #4a5568;
+            border: 2px solid #cbd5e0;
+            overflow: hidden;
+            position: relative;
+        }
+        .mockup-vr-headset {
+            width: 150px;
+            height: 80px;
+            background-color: #2E2E2E;
+            border-radius: 0.75rem;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 10px;
+        }
+        .mockup-vr-eye {
+            width: 30px;
+            height: 30px;
+            background-color: #00A6A6;
+            border-radius: 50%;
+            border: 2px solid #F39B12;
+            animation: eyePulse 2s infinite alternate;
+        }
+        @keyframes eyePulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+        .mockup-chat-bubble {
+            width: 80%;
+            height: 60%;
+            background-color: #00A6A6;
+            border-radius: 1rem;
+            border-bottom-left-radius: 0;
+            color: white;
+            font-size: 1rem;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            animation: chatWave 3s infinite;
+        }
+        .mockup-chat-bubble::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-top-color: #00A6A6;
+            border-left-color: #00A6A6;
+        }
+        @keyframes chatWave {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        .mockup-dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 0.5rem;
+            width: 90%;
+            height: 90%;
+            background-color: #edf2f7;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
+        }
+        .mockup-dashboard-item {
+            background-color: #cbd5e0;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #4a5568;
+            animation: fadeInOut 4s infinite alternate;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        .mockup-wallet {
+            width: 150px;
+            height: 100px;
+            background-color: #F39B12;
+            border-radius: 0.75rem;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+            overflow: hidden;
+        }
+        .mockup-wallet-line {
+            width: 80%;
+            height: 8px;
+            background-color: white;
+            border-radius: 4px;
+            animation: lineMove 2s infinite linear;
+        }
+        @keyframes lineMove {
+            0% { transform: translateX(-10px); }
+            100% { transform: translateX(10px); }
+        }
+        .mockup-wallet-coin {
+            width: 25px;
+            height: 25px;
+            background-color: #2E2E2E;
+            border-radius: 50%;
+            border: 2px solid white;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #2E2E2E;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .nav-link {
+            padding: 0.75rem 1.25rem;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+            border-radius: 0.375rem;
+        }
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: #00A6A6;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-energetic-dark text-white p-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">GenDev Solutions</h1>
+        <p class="text-xl md:text-2xl font-light">Shaping the Future of Digital Innovation</p>
+    </header>
+
+    <nav class="sticky-nav">
+        <ul class="flex flex-wrap justify-center p-2">
+            <li><a href="#opportunity" class="nav-link">Market</a></li>
+            <li><a href="#solutions" class="nav-link">Solutions</a></li>
+            <li><a href="#advantage" class="nav-link">Edge</a></li>
+            <li><a href="#team" class="nav-link">Team</a></li>
+            <li><a href="#portfolio-showcase" class="nav-link">Portfolio</a></li>
+            <li><a href="#business-model" class="nav-link">Model</a></li>
+            <li><a href="#traction-milestones" class="nav-link">Traction</a></li>
+            <li><a href="#investment" class="nav-link">Investment</a></li>
+        </ul>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="opportunity" class="my-12">
+            <div class="text-center mb-8 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">An Exploding Market Opportunity</h2>
+                <p class="text-lg text-gray-600">The demand for comprehensive digital transformation is accelerating globally. GenDev is positioned to capture a significant share of this multi-trillion dollar market by addressing critical industry pain points like fragmented solutions and the scarcity of future-ready tech skills.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center energetic-teal">Digital Transformation Market Growth (USD)</h3>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="marketGrowthChart"></canvas>
+                    </div>
+                     <p class="text-center text-gray-500 mt-4 text-sm">This chart illustrates the exponential growth forecast for the global digital transformation market, underlining the massive addressable market for GenDev's services.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="stat-card">
+                        <h4 class="text-4xl font-extrabold energetic-orange">$1.5 Trillion</h4>
+                        <p class="text-lg font-medium text-gray-700 mt-2">Projected AR/VR Market by 2030</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 class="text-4xl font-extrabold energetic-teal">$1.8 Trillion</h4>
+                        <p class="text-lg font-medium text-gray-700 mt-2">Projected AI Market by 2030</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solutions" class="my-16">
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">Our 360-Degree Digital Ecosystem</h2>
+                <p class="text-lg text-gray-600">We bridge the digital gap with a unified, future-ready portfolio. From foundational software to cutting-edge emerging technologies, we provide a single, expert partner for all digital transformation needs.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="border-r-0 md:border-r-2 border-dashed border-gray-300 pr-8">
+                        <h3 class="text-2xl font-bold mb-4 energetic-teal">Traditional Software Excellence</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="energetic-teal text-xl font-bold mr-3">◆</span><div><strong class="text-gray-800">Custom Apps:</strong> Web, Mobile, & Desktop</div></li>
+                            <li class="flex items-start"><span class="energetic-teal text-xl font-bold mr-3">◆</span><div><strong class="text-gray-800">Game Development:</strong> Full-Fledged 2D/3D Experiences</div></li>
+                            <li class="flex items-start"><span class="energetic-teal text-xl font-bold mr-3">◆</span><div><strong class="text-gray-800">Enterprise Solutions:</strong> ERP Systems with Advanced Analytics</div></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 energetic-orange">IR-4 Ready & IR-5 Prepared</h3>
+                         <ul class="space-y-3">
+                            <li class="flex items-start"><span class="energetic-orange text-xl font-bold mr-3">◆</span><div><strong class="text-gray-800">Immersive Tech:</strong> AR/VR/MR Development</div></li>
+                            <li class="flex items-start"><span class="energetic-orange text-xl font-bold mr-3">◆</span><div><strong class="text-gray-800">AI/ML & Big Data:</strong> Custom Chatbots & BI Dashboards</div></li>
+                            <li class="flex items-start"><span class="energetic-orange text-xl font-bold mr-3">◆</span><div><strong class="text-gray-800">FinTech & Blockchain:</strong> Digital Wallets & Secure DApps</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="advantage" class="my-16">
+            <div class="text-center mb-8 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">The GenDev Competitive Edge</h2>
+                <p class="text-lg text-gray-600">Our advantage is built on a unique fusion of versatile expertise, a powerful sales engine, and strategic resource management, setting us apart from conventional software houses.</p>
+            </div>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center energetic-teal">Core Strengths Analysis</h3>
+                    <div class="chart-container h-80">
+                        <canvas id="competitiveAdvantageChart"></canvas>
+                    </div>
+                    <p class="text-center text-gray-500 mt-4 text-sm">This radar chart visualizes GenDev's key strengths against a typical competitor, highlighting our superiority in sales, network effects, and technological versatility.</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="stat-card">
+                         <h4 class="text-4xl font-extrabold energetic-orange">22 Years</h4>
+                        <p class="text-lg font-medium text-gray-700 mt-2">Sales Leadership Experience</p>
+                        <p class="text-sm text-gray-500">Driving rapid market penetration through a vast, established client network.</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 class="text-4xl font-extrabold energetic-teal">5+</h4>
+                        <p class="text-lg font-medium text-gray-700 mt-2">Core Tech & Design Experts</p>
+                        <p class="text-sm text-gray-500">A powerhouse team backed by an extensive network of elite developers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="my-16">
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">Our Visionary Team</h2>
+                <p class="text-lg text-gray-600">Our strength lies in our diverse and highly skilled core team, complemented by an extensive network of expert developers for unparalleled scalability and specialized talent.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <div class="team-member-card">
+                    <div class="text-4xl energetic-teal mb-3">💻🧠</div>
+                    <h3 class="text-lg font-bold text-gray-900">AI/ML Lead</h3>
+                    <p class="text-sm text-gray-600">Full Stack Software & Data-Wiz AI/ML Development</p>
+                </div>
+                <div class="team-member-card">
+                    <div class="text-4xl energetic-orange mb-3">🖥️📊</div>
+                    <h3 class="text-lg font-bold text-gray-900">AI/ML Specialist</h3>
+                    <p class="text-sm text-gray-600">Full Stack Software & AI/ML Development</p>
+                </div>
+                <div class="team-member-card">
+                    <div class="text-4xl energetic-yellow mb-3">🎮🕶️</div>
+                    <h3 class="text-lg font-bold text-gray-900">Game & AR/VR Master</h3>
+                    <p class="text-sm text-gray-600">Full Stack Game Development & AR/VR Developer</p>
+                </div>
+                <div class="team-member-card">
+                    <div class="text-4xl energetic-teal mb-3">🎨🖌️</div>
+                    <h3 class="text-lg font-bold text-gray-900">Graphical Sensei</h3>
+                    <p class="text-sm text-gray-600">Expert in 2D/3D Modeling & Animation</p>
+                </div>
+                <div class="team-member-card">
+                    <div class="text-4xl energetic-orange mb-3">🤝📈</div>
+                    <h3 class="text-lg font-bold text-gray-900">Business Development</h3>
+                    <p class="text-sm text-gray-600">22 Yrs Experience, Vast Client Network</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio-showcase" class="my-16">
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">Ultimate Portfolio Showcase: Solutions in Detail</h2>
+                <p class="text-lg text-gray-600">Dive into our impactful projects. Each case study demonstrates GenDev's ability to solve complex business challenges with innovative, high-performance digital solutions across traditional and emerging technologies.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-12">
+
+                <!-- Case Study 1: Interactive-Immersive LMS for Medical Students -->
+                <div class="portfolio-card grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold energetic-teal mb-3">Interactive-Immersive LMS for Medical Students</h3>
+                        <p class="text-gray-700 mb-4"><strong>Challenge:</strong> Traditional medical education often lacks hands-on, risk-free environments for practicing complex procedures and understanding intricate human anatomy.</p>
+                        <p class="text-gray-700 mb-4"><strong>Solution:</strong> Developed a cutting-edge AR/VR/MR-based Learning Management System. This platform allows medical students to perform virtual dissections, simulate surgeries, and explore anatomical structures in a fully immersive, interactive 3D environment.</p>
+                        <p class="text-gray-700 mb-4"><strong>Technologies:</strong> Unity 3D, ARKit/ARCore, Oculus SDK, Custom Backend (Node.js), 3D Modeling (Blender/Maya Integration).</p>
+                        <p class="text-gray-700 mb-4"><strong>Impact:</strong> Achieved a <strong>30% improvement</strong> in student engagement and comprehension rates. Reduced reliance on expensive physical cadavers and lab equipment, making advanced medical training more accessible and cost-effective. Enhanced procedural recall and diagnostic accuracy for students.</p>
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <a href="#" target="_blank" class="bg-energetic-orange hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">View Demo (Coming Soon)</a>
+                            <a href="#" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">GitHub (Private)</a>
+                        </div>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <div class="mockup-container">
+                            <div class="mockup-vr-headset">
+                                <div class="mockup-vr-eye"></div>
+                                <div class="mockup-vr-eye"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 2: Omni-Domain AI Chatbot for E-commerce -->
+                <div class="portfolio-card grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="flex justify-center items-center order-2 md:order-1">
+                        <div class="mockup-container">
+                            <div class="mockup-chat-bubble">
+                                Hello! How can I help you?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <h3 class="text-2xl font-bold energetic-orange mb-3">Omni-Domain AI Chatbot for E-commerce</h3>
+                        <p class="text-gray-700 mb-4"><strong>Challenge:</strong> An e-commerce giant faced overwhelming customer service inquiries, leading to slow response times, high operational costs, and declining customer satisfaction due to siloed support channels and language barriers.</p>
+                        <p class="text-gray-700 mb-4"><strong>Solution:</strong> Engineered a sophisticated, omni-domain, multimodal, and multilingual AI Chatbot. The bot seamlessly handles customer queries across web, mobile, and social platforms, supports multiple languages, and provides personalized recommendations and order assistance, freeing human agents for complex issues.</p>
+                        <p class="text-gray-700 mb-4"><strong>Technologies:</strong> TensorFlow, PyTorch, Natural Language Processing (NLP), Google Cloud AI, Custom API Integration, Multimodal AI Frameworks.</p>
+                        <p class="text-gray-700 mb-4"><strong>Impact:</strong> Achieved a <strong>45% reduction</strong> in customer support costs. Improved average response time by <strong>70%</strong> and boosted customer satisfaction scores by <strong>25%</strong>. Enabled 24/7 global customer support, significantly expanding market reach.</p>
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <a href="#" target="_blank" class="bg-energetic-orange hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">View Demo (Coming Soon)</a>
+                            <a href="#" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">GitHub (Private)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 3: Custom ERP Solution with Predictive Analytics -->
+                <div class="portfolio-card grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold energetic-yellow mb-3">Custom ERP Solution with Predictive Analytics</h3>
+                        <p class="text-gray-700 mb-4"><strong>Challenge:</strong> A large manufacturing client struggled with disconnected legacy systems for production, inventory, sales, and finance, leading to inefficiencies, data silos, and an inability to forecast demand accurately.</p>
+                        <p class="text-gray-700 mb-4"><strong>Solution:</strong> Developed a bespoke Enterprise Resource Planning (ERP) system integrated with advanced predictive analytics modules. This solution unified all core business functions, providing real-time data insights, automating workflows, and offering robust demand forecasting capabilities.</p>
+                        <p class="text-gray-700 mb-4"><strong>Technologies:</strong> Python (Django/Flask), PostgreSQL, Apache Kafka, Scikit-learn (for ML models), Tableau/Power BI Integration (for advanced reporting), AWS Cloud Infrastructure.</p>
+                        <p class="text-gray-700 mb-4"><strong>Impact:</strong> Delivered a <strong>20% increase</strong> in operational efficiency and a <strong>15% reduction</strong> in inventory holding costs through optimized forecasting. Enhanced decision-making speed for management, leading to improved resource allocation and supply chain management.</p>
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <a href="#" target="_blank" class="bg-energetic-orange hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">View Demo (Coming Soon)</a>
+                            <a href="#" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">GitHub (Private)</a>
+                        </div>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <div class="mockup-container">
+                            <div class="mockup-dashboard">
+                                <div class="mockup-dashboard-item">Sales Data</div>
+                                <div class="mockup-dashboard-item">Inventory</div>
+                                <div class="mockup-dashboard-item">Production</div>
+                                <div class="mockup-dashboard-item">Analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 4: Secure Digital Wallet (Crypto↔Fiat) Platform -->
+                <div class="portfolio-card grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="flex justify-center items-center order-2 md:order-1">
+                        <div class="mockup-container">
+                            <div class="mockup-wallet">
+                                <div class="mockup-wallet-coin"></div>
+                                <div class="mockup-wallet-line"></div>
+                                <div class="mockup-wallet-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <h3 class="text-2xl font-bold energetic-teal mb-3">Secure Digital Wallet (Crypto↔Fiat) Platform</h3>
+                        <p class="text-gray-700 mb-4"><strong>Challenge:</strong> A fintech startup aimed to launch a secure, user-friendly digital wallet supporting both cryptocurrency and traditional fiat transactions, but needed robust security, regulatory compliance, and seamless user experience.</p>
+                        <p class="text-gray-700 mb-4"><strong>Solution:</strong> Developed a full-featured digital wallet platform with advanced security protocols (multi-factor authentication, end-to-end encryption), integrated with multiple cryptocurrency exchanges and traditional banking rails. Included real-time forex conversion and a clean, intuitive user interface.</p>
+                        <p class="text-gray-700 mb-4"><strong>Technologies:</strong> Blockchain (Ethereum/Solana APIs), Cryptography, Java/Kotlin (Backend), React Native (Mobile), OAuth 2.0, AWS Security Services.</p>
+                        <p class="text-gray-700 mb-4"><strong>Impact:</strong> Enabled the client to successfully launch their product into a competitive market. Achieved high user adoption rates due to ease of use and perceived security. Facilitated millions in secure transactions, establishing the startup as a reliable player in the digital finance space.</p>
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <a href="#" target="_blank" class="bg-energetic-orange hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">View Demo (Coming Soon)</a>
+                            <a href="#" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm transition-transform transform hover:scale-105">GitHub (Private)</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="business-model" class="my-16">
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">Diverse Revenue Streams for Sustainable Growth</h2>
+                <p class="text-lg text-gray-600">Our multi-faceted business model ensures robust and recurring revenue streams, leveraging both custom project development and scalable product offerings for long-term profitability.</p>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center md:items-stretch space-y-8 md:space-y-0 md:space-x-8">
+                <div class="flow-step arrow-right md:arrow-down">Project-Based Engagements</div>
+                <div class="flow-step arrow-right md:arrow-down">Subscription/SaaS Models</div>
+                <div class="flow-step arrow-right md:arrow-down">Licensing Agreements</div>
+                <div class="flow-step arrow-right md:arrow-down">Maintenance & Support</div>
+                <div class="flow-step">Consulting & Advisory</div>
+            </div>
+        </section>
+
+        <section id="traction-milestones" class="my-16">
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">Traction & Future Milestones</h2>
+                <p class="text-lg text-gray-600">We are on a clear path of growth, with tangible achievements already under our belt and a strategic roadmap designed for exponential expansion and market leadership.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold energetic-teal mb-3">Current Achievements</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Successfully delivered numerous projects since inception.</li>
+                        <li>Secured key clients across diverse industries.</li>
+                        <li>Achieved significant initial revenue growth.</li>
+                        <li>Established a robust developer network.</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold energetic-orange mb-3">Future Roadmap (12-24 Months)</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Expand core team and onboard specialized developers.</li>
+                        <li>Secure significant new client contracts.</li>
+                        <li>Launch GenDev's proprietary SaaS platform.</li>
+                        <li>Penetrate new market segments/geographies.</li>
+                        <li>Achieve specific profitability/revenue targets.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="investment" class="my-16">
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-extrabold energetic-dark mb-4">Fueling Our Growth Engine</h2>
+                <p class="text-lg text-gray-600">An investment in GenDev is an investment in a scalable, high-growth future. We have a clear strategy for capital utilization to maximize market capture, innovation, and investor returns.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 bg-white rounded-lg shadow-lg p-6">
+                     <h3 class="text-2xl font-bold mb-4 text-center energetic-teal">Projected Revenue Growth</h3>
+                    <div class="chart-container h-80 w-full max-w-full">
+                        <canvas id="revenueProjectionChart"></canvas>
+                    </div>
+                    <p class="text-center text-gray-500 mt-4 text-sm">Our financial projections show a strong upward trajectory, driven by client acquisition through our sales network and the launch of new, scalable service offerings.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold mb-4 text-center energetic-orange">Investment Allocation</h3>
+                    <div class="chart-container h-80">
+                         <canvas id="investmentAllocationChart"></canvas>
+                    </div>
+                    <p class="text-center text-gray-500 mt-4 text-sm">This breakdown shows our strategic allocation of funds, prioritizing talent and technology to fuel our core operations and innovation.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-energetic-dark text-white text-center p-8 mt-12">
+        <h2 class="text-3xl font-extrabold mb-4">Join Us in Shaping the Future</h2>
+        <p class="max-w-2xl mx-auto mb-6">GenDev Solutions is uniquely positioned to lead the next wave of digital innovation. We invite you to be a part of our journey to build a global tech powerhouse and deliver exceptional returns.</p>
+        <a href="mailto:invest@gendevsolutions.com" class="bg-energetic-orange hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105 inline-block">Contact Us for a Discussion</a>
+    </footer>
+
+    <script>
+        const energeticPalette = {
+            teal: '#00A6A6',
+            orange: '#E55812',
+            yellow: '#F39B12',
+            grey: '#D9D9D9',
+            dark: '#2E2E2E'
+        };
+
+        const chartTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+        
+        function wrapLabels(label, maxWidth) {
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += ' ' + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines.length > 1 ? lines : label;
+        }
+
+        const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
+        new Chart(marketGrowthCtx, {
+            type: 'line',
+            data: {
+                labels: ['2022', '2023', '2024', '2025'],
+                datasets: [{
+                    label: 'Market Size ($ Trillion)',
+                    data: [1.7, 2.3, 2.8, 3.3],
+                    borderColor: energeticPalette.teal,
+                    backgroundColor: 'rgba(0, 166, 166, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...chartTooltipConfig,
+                 scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                             callback: function(value) {
+                                return '$' + value + 'T';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const competitiveAdvantageCtx = document.getElementById('competitiveAdvantageChart').getContext('2d');
+        new Chart(competitiveAdvantageCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Tech Versatility', 'Sales Prowess', ['Proven', 'Client Network'], 'Scalability', 'Innovation', 'Cost-Effectiveness'],
+                datasets: [{
+                    label: 'GenDev Solutions',
+                    data: [9, 9, 8, 7, 9, 8],
+                    borderColor: energeticPalette.orange,
+                    backgroundColor: 'rgba(229, 88, 18, 0.2)',
+                    pointBackgroundColor: energeticPalette.orange,
+                    borderWidth: 2
+                }, {
+                    label: 'Typical Competitor',
+                    data: [6, 4, 3, 5, 6, 6],
+                    borderColor: energeticPalette.grey,
+                    backgroundColor: 'rgba(217, 217, 217, 0.2)',
+                    pointBackgroundColor: energeticPalette.grey,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...chartTooltipConfig,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0,0,0,0.1)' },
+                        grid: { color: 'rgba(0,0,0,0.1)' },
+                        pointLabels: { font: { size: 12 } },
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                }
+            }
+        });
+
+        const revenueProjectionCtx = document.getElementById('revenueProjectionChart').getContext('2d');
+        new Chart(revenueProjectionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Year 1', 'Year 2', 'Year 3'],
+                datasets: [{
+                    label: 'Projected Revenue ($)',
+                    data: [500000, 1500000, 3500000],
+                    backgroundColor: [
+                        'rgba(0, 166, 166, 0.7)',
+                        'rgba(229, 88, 18, 0.7)',
+                        'rgba(243, 155, 18, 0.7)'
+                    ],
+                    borderColor: [
+                        energeticPalette.teal,
+                        energeticPalette.orange,
+                        energeticPalette.yellow
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                ...chartTooltipConfig,
+                plugins: {
+                    ...chartTooltipConfig.plugins,
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + (value / 1000) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const investmentAllocationCtx = document.getElementById('investmentAllocationChart').getContext('2d');
+        const originalLabels = ['Talent Acquisition & Expansion', 'Technology & Infrastructure', 'Sales & Marketing', 'Research & Development'];
+        const wrappedLabels = originalLabels.map(label => wrapLabels(label, 16));
+        new Chart(investmentAllocationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: wrappedLabels,
+                datasets: [{
+                    label: 'Fund Allocation',
+                    data: [40, 30, 20, 10],
+                    backgroundColor: [
+                        energeticPalette.teal,
+                        energeticPalette.orange,
+                        energeticPalette.yellow,
+                        energeticPalette.dark
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...chartTooltipConfig,
+                plugins: {
+                    ...chartTooltipConfig.plugins,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                             boxWidth: 15
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

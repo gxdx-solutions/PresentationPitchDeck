@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GenDev Solutions Pitch</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #004aad, #ffffff);
+      color: #0a0a0a;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #004aad;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    nav {
+      background: #ffffff;
+      text-align: center;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #004aad;
+      font-weight: bold;
+    }
+    section {
+      padding: 2rem;
+      background: white;
+      margin: 1rem auto;
+      border-radius: 12px;
+      max-width: 900px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #004aad;
+    }
+    ul {
+      line-height: 1.6;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      padding: 2rem;
+    }
+    canvas {
+      display: block;
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>GenDev Solutions Investor Pitch</h1>
+    <p>AI + XR-Powered Scalable Business Innovation</p>
+  </header>
+
+  <nav>
+    <a href="#milestones">Milestones</a>
+    <a href="#traction">Traction</a>
+    <a href="#market">Market</a>
+    <a href="#budget">Budget</a>
+    <a href="#investor">Investor Benefits</a>
+    <a href="#strategy">Strategy</a>
+  </nav>
+
+  <section id="milestones">
+    <h2>Milestones</h2>
+    <ul>
+      <li><strong>2025–2026:</strong> Foundational growth, team scaling, first 5 clients</li>
+      <li><strong>2027–2028:</strong> Product-market fit, 30+ clients, $120K MRR</li>
+      <li><strong>2029–2030:</strong> ASEAN expansion, $2M ARR target, 80% margin</li>
+      <li><strong>2030:</strong> Regulatory certifications, IP filings, Series A scaling</li>
+    </ul>
+  </section>
+
+  <section id="traction">
+    <h2>Traction & SWOT Analysis</h2>
+    <p><strong>Clients:</strong> 50+ Enterprises, 1,200+ users, 35% MoM growth</p>
+    <h3>SWOT</h3>
+    <ul>
+      <li><strong>Strengths:</strong> Proprietary tech, retention, team</li>
+      <li><strong>Weaknesses:</strong> High R&D cost, brand visibility</li>
+      <li><strong>Opportunities:</strong> ASEAN/MENA expansion, GovTech scale</li>
+      <li><strong>Threats:</strong> Regulation, global competition</li>
+    </ul>
+  </section>
+
+  <section id="market">
+    <h2>Market Conditions</h2>
+    <canvas id="marketChart"></canvas>
+    <ul>
+      <li><strong>PAM:</strong> $18B (Global + Local)</li>
+      <li><strong>Global TAM:</strong> $10B | <strong>SAM:</strong> $5B</li>
+      <li><strong>Local SAM:</strong> $2B | <strong>SOM:</strong> $1B</li>
+    </ul>
+  </section>
+
+  <section id="budget">
+    <h2>Budget Allocation (FY2025)</h2>
+    <canvas id="budgetChart"></canvas>
+    <ul>
+      <li>50% Product & Tech</li>
+      <li>20% GTM & Sales</li>
+      <li>20% Talent, Operations & Architecture</li>
+      <li>10% Legal Procedure & Miscellaneous</li>
+    </ul>
+    <p><strong>Runway:</strong> 16 months at $70K/month</p>
+  </section>
+
+  <section id="investor">
+    <h2>Investor Benefits</h2>
+    <ul>
+      <li>7–10x ROI over 5 years</li>
+      <li>Early stake in scalable, IP-driven platform</li>
+      <li>High-margin model (>80%)</li>
+      <li>Efficient CAC:LTV (1:4)</li>
+    </ul>
+  </section>
+
+  <section id="strategy">
+    <h2>Go-To-Market Strategy</h2>
+    <ul>
+      <li>Target: Finance, Health, GovTech, E-Commerce</li>
+      <li>Channels: Direct Sales, Partnerships, Telecoms</li>
+      <li>Launch: BD → Malaysia → Indonesia → UAE</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2030 GenDev Solutions. All rights reserved.
+  </footer>
+
+  <script>
+    const ctx1 = document.getElementById('marketChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'pie',
+      data: {
+        labels: ['Global TAM ($10B)', 'Global SAM ($5B)', 'Local SAM ($2B)', 'Local SOM ($1B)'],
+        datasets: [{
+          data: [10, 5, 2, 1],
+          backgroundColor: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: { display: true, text: 'Market Breakdown' }
+        }
+      }
+    });
+
+    const ctx2 = document.getElementById('budgetChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: ['Product & Tech', 'GTM & Sales', 'Talent, Ops & Architecture', 'Legal & Misc.'],
+        datasets: [{
+          data: [50, 15, 25, 10],
+          backgroundColor: ['#004aad', '#007bff', '#33aaff', '#66ccff']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: { display: true, text: 'Budget Allocation FY2025' }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

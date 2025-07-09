@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenDev Solutions - Investor Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            min-height: 100vh;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            border: none;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(30, 60, 114, 0.4);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .project-roi {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            background: white;
+            border: 2px solid #1e3c72;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.2);
+            transform: translateX(10px);
+        }
+
+        .timeline-item h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            transform: scale(1.05);
+        }
+
+        .editable {
+            border: 2px dashed transparent;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .editable:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .editable:focus {
+            outline: none;
+            border-color: #1e3c72;
+            background: rgba(30, 60, 114, 0.1);
+        }
+
+        .edit-hint {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 80%;
+                max-width: 300px;
+            }
+            
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1 contenteditable="true" class="editable">GenDev Solutions</h1>
+            <p contenteditable="true" class="editable">360° Digital Solutions - From Traditional to Emerging Technologies</p>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">🎯 Overview</button>
+            <button class="tab-btn" onclick="showTab('offerings')">🚀 Our Offerings</button>
+            <button class="tab-btn" onclick="showTab('team')">👥 Team & Network</button>
+            <button class="tab-btn" onclick="showTab('projects')">💼 Portfolio</button>
+            <button class="tab-btn" onclick="showTab('competitive')">⚡ Competitive Edge</button>
+            <button class="tab-btn" onclick="showTab('investment')">💰 Investment</button>
+        </div>
+        
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <div class="card">
+                <h2>🎯 Company Overview</h2>
+                <p contenteditable="true" class="editable">GenDev Solutions is a future-ready software startup providing comprehensive 360-degree digital solutions. Our versatile team combines expertise in traditional software development with cutting-edge emerging technologies including AI/ML, AR/VR, IoT, and Blockchain. With 22 years of business development experience and an extensive network of expert developers, we're positioned to rapidly penetrate markets and deliver scalable, innovative solutions across all industries.</p>
+                <div class="edit-hint">Click to edit any text in this portfolio</div>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number" contenteditable="true">5</div>
+                    <div class="metric-label">Core Team Members</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number" contenteditable="true">22</div>
+                    <div class="metric-label">Years BD Experience</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number" contenteditable="true">360°</div>
+                    <div class="metric-label">Digital Solutions</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number" contenteditable="true">IR-5</div>
+                    <div class="metric-label">Future Ready</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Offerings Section -->
+        <div id="offerings" class="content-section">
+            <div class="card">
+                <h2>🚀 Our Comprehensive Offerings</h2>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-title">Traditional Software Solutions</div>
+                        <div class="project-roi">Web • Mobile • Desktop • Games</div>
+                        <p>Complete solution architecture, design, development, and implementation across all platforms.</p>
+                        <ul style="margin-top: 15px;">
+                            <li>Web Applications & Portals</li>
+                            <li>Mobile Apps (iOS/Android)</li>
+                            <li>Desktop Applications</li>
+                            <li>Game Development</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-title">Immersive Technologies</div>
+                        <div class="project-roi">AR • VR • MR</div>
+                        <p>Cutting-edge immersive solutions for education, training, and business applications.</p>
+                        <ul style="margin-top: 15px;">
+                            <li>Virtual Tours & Experiences</li>
+                            <li>Interactive Learning Management Systems</li>
+                            <li>Medical Training Simulations</li>
+                            <li>Industrial Training Platforms</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-title">AI/ML & Big Data</div>
+                        <div class="project-roi">Omni-Domain • Multimodal • Multilingual</div>
+                        <p>Advanced AI solutions including chatbots, analytics, and forecasting systems.</p>
+                        <ul style="margin-top: 15px;">
+                            <li>AI Chatbots (ChatGPT-like)</li>
+                            <li>Business Intelligence Dashboards</li>
+                            <li>Predictive Analytics</li>
+                            <li>Machine Learning Models</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Team Section -->
+        <div id="team" class="content-section">
+            <div class="card">
+                <h2>👥 Our Expert Team</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>Full Stack Developers + AI/ML Specialists</h3>
+                        <p style="color: #1e3c72; font-weight: bold;">2 Team Members</p>
+                        <p>Expert full-stack developers with specialized skills in Data-Wiz AI/ML Development, capable of building end-to-end solutions with intelligent features.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3>Game Development Master + AR/VR Developer</h3>
+                        <p style="color: #1e3c72; font-weight: bold;">1 Team Member</p>
+                        <p>Full-stack game development expert with mastery in AR/VR technologies, creating immersive experiences and interactive applications.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3>Graphical Sensei</h3>
+                        <p style="color: #1e3c72; font-weight: bold;">1 Team Member</p>
+                        <p>Expert in 2D/3D modeling and animation for any platform, ensuring visually stunning and professionally crafted digital assets.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h3>Business Development & Sales Expert</h3>
+                        <p style="color: #1e3c72; font-weight: bold;">1 Team Member • 22 Years Experience</p>
+                        <p>Seasoned professional with extensive network of satisfied clients and proven track record in rapid market penetration and business growth.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>🌐 Extended Developer Network</h2>
+                <p>Extensive connections with expert developers working at top software firms in Bangladesh, providing scalable resources and specialized expertise when needed.</p>
+            </div>
+        </div>
+        
+        <!-- Projects Section -->
+        <div id="projects" class="content-section">
+            <div class="card">
+                <h2>💼 Portfolio Highlights</h2>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-title">ERP Solutions with Analytics</div>
+                        <div class="project-roi">Enterprise Grade</div>
+                        <p>Comprehensive ERP systems with integrated analytics dashboards for business intelligence and decision-making support.</p>
+                        <div style="margin-top: 15px;">
+                            <strong>Key Features:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Real-time data processing</li>
+                                <li>Advanced reporting capabilities</li>
+                                <li>Multi-department integration</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-title">Interactive AR/VR LMS</div>
+                        <div class="project-roi">Medical Education</div>
+                        <p>Immersive learning management system for medical students with interactive 3D models and virtual patient scenarios.</p>
+                        <div style="margin-top: 15px;">
+                            <strong>Key Features:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Virtual patient interactions</li>
+                                <li>3D anatomical models</li>
+                                <li>Progress tracking & assessment</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-title">Digital Wallet & Forex Platform</div>
+                        <div class="project-roi">FinTech</div>
+                        <p>Secure digital wallet supporting crypto-to-fiat transactions and comprehensive forex trading platform.</p>
+                        <div style="margin-top: 15px;">
+                            <strong>Key Features:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Multi-currency support</li>
+                                <li>Real-time trading</li>
+                                <li>Advanced security protocols</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Competitive Edge Section -->
+        <div id="competitive" class="content-section">
+            <div class="card">
+                <h2>⚡ Competitive Advantages</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 15px;">🎯 Versatile Expertise</h3>
+                        <p>Unique combination of traditional software development and emerging technologies (AR/VR, AI/ML, IoT, Blockchain) in one team.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 15px;">🚀 Rapid Market Entry</h3>
+                        <p>22 years of business development experience with established client network for immediate market penetration.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 15px;">💡 Future-Ready Solutions</h3>
+                        <p>IR-4 ready and IR-5 prepared technologies ensuring long-term relevance and competitive advantage.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 15px;">🌐 Cost-Effective Excellence</h3>
+                        <p>Bangladesh-based high-skill development team providing world-class solutions at competitive pricing.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>🎯 Core Technologies</h2>
+                <div class="skills-container">
+                    <span class="skill-tag">Full Stack Development</span>
+                    <span class="skill-tag">AI/ML/Deep Learning</span>
+                    <span class="skill-tag">AR/VR/MR Development</span>
+                    <span class="skill-tag">Game Development</span>
+                    <span class="skill-tag">IoT Solutions</span>
+                    <span class="skill-tag">Blockchain</span>
+                    <span class="skill-tag">Cyber Security</span>
+                    <span class="skill-tag">Cloud Computing</span>
+                    <span class="skill-tag">Big Data Analytics</span>
+                    <span class="skill-tag">Digital Marketing</span>
+                    <span class="skill-tag">3D Modeling & Animation</span>
+                    <span class="skill-tag">Business Intelligence</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Investment Section -->
+        <div id="investment" class="content-section">
+            <div class="card">
+                <h2>💰 Investment Opportunity</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-number">$XXX</div>
+                        <div class="metric-label">Funding Sought</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">XX%</div>
+                        <div class="metric-label">Equity Offered</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">24M</div>
+                        <div class="metric-label">Projected ROI Timeline</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">5X</div>
+                        <div class="metric-label">Projected Returns</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>📈 Fund Allocation</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 10px;">Team Expansion (40%)</h3>
+                        <p>Hiring additional developers and specialists to scale operations and handle increased project volume.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 10px;">Technology Infrastructure (25%)</h3>
+                        <p>Advanced development tools, cloud infrastructure, and emerging technology equipment.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 10px;">Marketing & Sales (20%)</h3>
+                        <p>Global market expansion, brand building, and client acquisition campaigns.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #1e3c72; margin-bottom: 10px;">R&D Innovation (15%)</h3>
+                        <p>Research and development of next-generation solutions and emerging technology prototypes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Add smooth scrolling for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to editable elements
+            const editableElements = document.querySelectorAll('.editable');
+            editableElements.forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Add dynamic animations to metric cards
+            const metricCards = document.querySelectorAll('.metric-card');
+            metricCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'slideInUp 0.6s ease forwards';
+            });
+
+            // Add intersection observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            // Observe all cards for animation
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+        // Add keyframe animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

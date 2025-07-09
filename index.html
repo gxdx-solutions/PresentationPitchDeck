@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unified GenDev Presentation Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
+</head>
+<body class="bg-gray-50">
+  <div x-data="presentationApp()" class="flex h-screen overflow-hidden">
+    <div :class="openSidebar ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <h2 class="text-xl font-bold text-blue-900">GenDev Viewer</h2>
+        <button class="md:hidden" @click="openSidebar = false">✖</button>
+      </div>
+      <nav class="flex flex-col p-4 space-y-2">
+        <button class="flex items-center gap-2 text-left px-4 py-2 rounded hover:bg-blue-100" :class="{ 'bg-blue-200 font-bold': current === 1 }" @click="current = 1">
+          <img src="./logos/chatgpt.svg" alt="ChatGPT" class="w-5 h-5" /> ChatGPT
+        </button>
+        <button class="flex items-center gap-2 text-left px-4 py-2 rounded hover:bg-blue-100" :class="{ 'bg-blue-200 font-bold': current === 2 }" @click="current = 2">
+          <img src="./logos/claude-ai.svg" alt="Claude" class="w-5 h-5" /> Claude
+        </button>
+        <button class="flex items-center gap-2 text-left px-4 py-2 rounded hover:bg-blue-100" :class="{ 'bg-blue-200 font-bold': current === 3 }" @click="current = 3">
+          <img src="./logos/google-gemini.svg" alt="Gemini" class="w-5 h-5" /> Gemini
+        </button>
+        <button class="flex items-center gap-2 text-left px-4 py-2 rounded hover:bg-blue-100" :class="{ 'bg-blue-200 font-bold': current === 4 }" @click="current = 4">
+          <img src="./logos/grok.svg" alt="Grok" class="w-5 h-5" /> Grok
+        </button>
+      </nav>
+    </div>
+
+    <div class="flex-1 flex flex-col">
+      <header class="flex items-center justify-between p-4 bg-blue-900 text-white md:hidden">
+        <button @click="openSidebar = true">☰ Menu</button>
+        <h1 class="text-lg font-semibold">Welcome to GenDev Presentations</h1>
+      </header>
+
+      <main class="flex-1 overflow-auto">
+        <template x-if="current === 0">
+          <div class="flex flex-col items-center justify-center h-full text-center p-10">
+            <h2 class="text-3xl font-bold mb-4">Welcome to GenDev Viewer</h2>
+            <p class="text-lg text-gray-600 mb-6">Select a presentation from the sidebar to begin</p>
+            <div class="animate-bounce text-blue-600 text-4xl">⬅️</div>
+          </div>
+        </template>
+        <template x-if="current === 1">
+          <iframe x-bind:src="'./chatGPT.html'" class="w-full h-full" frameborder="0"></iframe>
+        </template>
+        <template x-if="current === 2">
+          <iframe x-bind:src="'./claude.html'" class="w-full h-full" frameborder="0"></iframe>
+        </template>
+        <template x-if="current === 3">
+          <iframe x-bind:src="'./gemini.html'" class="w-full h-full" frameborder="0"></iframe>
+        </template>
+        <template x-if="current === 4">
+          <iframe x-bind:src="'./grok.html'" class="w-full h-full" frameborder="0"></iframe>
+        </template>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function presentationApp() {
+      return {
+        openSidebar: window.innerWidth >= 768,
+        current: 0
+      }
+    }
+  </script>
+</body>
+</html>
